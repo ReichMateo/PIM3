@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "test": "vitest run",
-    "dev": "vite",
+    "dev": "vercel dev",
+    "dev:vite-only": "vite",
     "build": "vite build"
   },
   "devDependencies": {
