@@ -53,4 +53,4 @@ Se utilizó un prompt de sistema para definir la personalidad de Hijitus y se in
 
 ## Enlace desplegado
 
-URL pública del proyecto: https://hijitus-chat-274y6as24-mateo-el-pro.vercel.app
+URL pública del proyecto: https://hijitus-chat-poc.vercel.app/
