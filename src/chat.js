@@ -1,9 +1,9 @@
 import { createMessage } from './utils.js';
 
 const avatars = {
-  hijitus: '/assets/hijitus.svg',
-  profesor: '/assets/profesor.svg',
-  larguirucho: '/assets/larguirucho.svg'
+  hijitus: '/assets/hijitus.webp',
+  profesor: '/assets/Elprofeso.webp',
+  larguirucho: '/assets/Largirucho.jpg'
 };
 
 const createAvatar = (label = 'Personaje', key = 'hijitus') => avatars[key] || avatars.hijitus;
