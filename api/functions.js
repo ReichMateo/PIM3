@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -34,29 +35,25 @@ export default async function handler(req, res) {
 
   const systemPrompt = systemPrompts[character] || defaultPrompt(character);
 
-  const body = {
-    systemInstruction: {
-      role: 'user',
-      parts: [{ text: systemPrompt }]
-    },
-    contents: messages.map((message) => ({
-      role: message.role === 'user' ? 'user' : 'model',
-      parts: [{ text: message.content }]
-    })),
+  const genAI = new GoogleGenerativeAI(apiKey);
+  const model = genAI.getGenerativeModel({
+    model: 'gemini-3.1-flash-lite',
+    systemInstruction: systemPrompt,
     generationConfig: {
       temperature: 0.8,
       maxOutputTokens: 180
     }
-  };
-
-  const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${apiKey}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body)
   });
 
-  const data = await response.json();
-  const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text || 'No pude generar una respuesta.';
+  const history = messages.slice(0, -1).map((message) => ({
+    role: message.role === 'user' ? 'user' : 'model',
+    parts: [{ text: message.content }]
+  }));
+
+  const lastMessage = messages[messages.length - 1];
+  const chat = model.startChat({ history });
+  const result = await chat.sendMessage(lastMessage?.content || '');
+  const reply = result.response.text();
 
   res.status(200).json({ reply });
 }

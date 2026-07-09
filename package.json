@@ -5,10 +5,11 @@
   "type": "module",
   "scripts": {
     "test": "vitest run",
-    "dev": "vercel dev",
+    "dev": "npx --yes vercel dev",
     "build": "vite build"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.0",
     "dotenv": "^16.4.5"
   },
   "devDependencies": {
